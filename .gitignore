@@ -1,6 +1,8 @@
-*/.project
-*/.classpath
-*/.settings
-*/target
-*/logs
+/.project
+/.classpath
+/.tern-project
+/.settings
+/target
+/logs
+/bin
 *~
