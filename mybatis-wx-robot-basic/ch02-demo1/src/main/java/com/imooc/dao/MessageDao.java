@@ -25,13 +25,16 @@ public class MessageDao {
 	 * @param command
 	 * @param description
 	 * @return List<Message>
+	 * @throws SQLException 
 	 */
-	public List<Message> queryMessageList(String command, String description) {
+	public List<Message> queryMessageList(String command, String description) throws SQLException {
 		List<Message> messageList = new ArrayList<>();
-		
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
-			Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/mybatis", "root", "123456");
+			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/mybatis", "root", "123456");
 			StringBuilder sql = new StringBuilder("select ID, COMMAND, DESCRIPTION, CONTENT from message where 1=1");
 			
 			// 进行SQL的拼接
@@ -45,13 +48,13 @@ public class MessageDao {
 				paramList.add(description);
 			}
 			
-			PreparedStatement pstmt = conn.prepareStatement(sql.toString());
+			pstmt = conn.prepareStatement(sql.toString());
 			// 填充PreparedStatement的参数
 			for(int i = 0; i < paramList.size(); i++) {
 				pstmt.setString(i + 1, paramList.get(i));
 			}
 			
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			logger.info(pstmt.toString());
 			while(rs.next()) {
 				Message message = new Message();
@@ -62,14 +65,22 @@ public class MessageDao {
 				
 				messageList.add(message);
 			}
-			
-			conn.close();
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} finally {
+			if(rs != null) {
+				rs.close();
+			}
+			if(pstmt != null) {
+				pstmt.close();
+			}
+			if(conn != null) {
+				conn.close();
+			}
 		}
 		
 		return messageList;

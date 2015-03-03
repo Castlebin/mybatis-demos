@@ -1,6 +1,7 @@
 package com.imooc.servlet;
 
 import java.io.IOException;
+import java.sql.SQLException;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -34,7 +35,12 @@ public class ListServlet extends HttpServlet {
 		
 		ListService listService = new ListService();
 		// 查询消息列表并传给页面
-		req.setAttribute("messageList", listService.queryMessageList(command, description));
+		try {
+			req.setAttribute("messageList", listService.queryMessageList(command, description));
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 		// 跳转到list页面
 		req.getRequestDispatcher("/WEB-INF/jsp/back/list.jsp").forward(req, resp);
