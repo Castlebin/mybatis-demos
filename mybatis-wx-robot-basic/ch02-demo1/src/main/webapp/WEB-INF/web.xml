@@ -6,6 +6,16 @@
 
 	<display-name>ch02-demo1</display-name>
 	
+	<!-- ListServlet -->
+	<servlet>
+	    <servlet-name>ListServlet</servlet-name>
+	    <servlet-class>com.imooc.servlet.ListServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+	    <servlet-name>ListServlet</servlet-name>
+	    <url-pattern>List.action</url-pattern>
+	</servlet-mapping>
+	
 	<welcome-file-list>
 		<welcome-file>index.jsp</welcome-file>
 	</welcome-file-list>
