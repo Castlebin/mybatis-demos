@@ -1,0 +1,5 @@
+[2015-03-03 15:23:06][com.imooc.dao.MessageDao-queryMessageList]  -com.mysql.jdbc.JDBC4PreparedStatement@16db431a: select ID, COMMAND, DESCRIPTION, CONTENT from message where 1=1
+  [2015-03-03 15:23:27][com.imooc.dao.MessageDao-queryMessageList]  -com.mysql.jdbc.JDBC4PreparedStatement@1f2225e8: select ID, COMMAND, DESCRIPTION, CONTENT from message where 1=1 and COMMAND='查看'
+  [2015-03-03 15:23:40][com.imooc.dao.MessageDao-queryMessageList]  -com.mysql.jdbc.JDBC4PreparedStatement@5ec4b942: select ID, COMMAND, DESCRIPTION, CONTENT from message where 1=1 and COMMAND='查看' and DESCRIPTION like '%' '精彩' '%'
+  [2015-03-03 15:23:55][com.imooc.dao.MessageDao-queryMessageList]  -com.mysql.jdbc.JDBC4PreparedStatement@44d138e5: select ID, COMMAND, DESCRIPTION, CONTENT from message where 1=1 and DESCRIPTION like '%' '精彩' '%'
+  
