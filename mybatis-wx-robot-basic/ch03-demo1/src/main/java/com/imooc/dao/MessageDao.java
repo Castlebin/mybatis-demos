@@ -1,10 +1,6 @@
 package com.imooc.dao;
 
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,6 +18,7 @@ import com.imooc.db.DBAccess;
  * Message DAO 
  */
 public class MessageDao {
+	@SuppressWarnings("unused")
 	private static final Logger logger = Logger.getLogger(MessageDao.class);
 
 	/**
