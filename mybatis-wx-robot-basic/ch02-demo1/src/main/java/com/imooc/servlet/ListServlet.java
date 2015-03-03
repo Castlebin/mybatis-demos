@@ -29,10 +29,35 @@ public class ListServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		try {
+			// jsp页面中已经设置编码为UTF-8了，所以，这一行不需要
+		//	req.setCharacterEncoding("UTF-8");
+			
+			String command = req.getParameter("command");
+			String description = req.getParameter("description");
+			req.setAttribute("command", command);
+			req.setAttribute("description", description);
+			
 			Class.forName("com.mysql.jdbc.Driver");
 			Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/mybatis", "root", "123456");
-			String sql = "select ID, COMMAND, DESCRIPTION, CONTENT from message";
-			PreparedStatement pstmt = conn.prepareStatement(sql);
+			StringBuilder sql = new StringBuilder("select ID, COMMAND, DESCRIPTION, CONTENT from message where 1=1");
+			
+			// 进行SQL的拼接
+			List<String> paramList = new ArrayList<>();
+			if(command!=null && !command.trim().equals("")){
+				sql.append(" and COMMAND=?");
+				paramList.add(command);
+			}
+			if(description!=null && !description.trim().equals("")){
+				sql.append(" and DESCRIPTION like '%' ? '%'");// 使用模糊匹配。mysql中进行字符串拼接使用的是空格
+				paramList.add(description);
+			}
+			
+			PreparedStatement pstmt = conn.prepareStatement(sql.toString());
+			// 填充PreparedStatement的参数
+			for(int i = 0; i < paramList.size(); i++) {
+				pstmt.setString(i + 1, paramList.get(i));
+			}
+			
 			ResultSet rs = pstmt.executeQuery();
 			List<Message> messageList = new ArrayList<>();
 			while(rs.next()) {
@@ -60,7 +85,7 @@ public class ListServlet extends HttpServlet {
 	}
 	
 	@Override
-	protected void doPut(HttpServletRequest req, HttpServletResponse resp)
+	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		this.doGet(req, resp);
 	}
